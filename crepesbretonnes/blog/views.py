@@ -5,8 +5,8 @@ from .forms import ContactForm
 
 def home(request):
     """ Exemple de page HTML, non valide pour que l'exemple soit concis """
-    age = 17
-    sexe = "Femme"
+    age = 46
+    sexe = "Monsieur"
     return render(request, 'blog/bonjour.html', {'date': datetime.now(), 'age':age, 'sexe':sexe })
 # Create your views here.
 
@@ -61,4 +61,10 @@ def contact(request):
         envoi = True
     
     # Quoiqu'il arrive, on affiche la page du formulaire.
-    return render(request, 'blog/form.html', locals())
+    return render(request, 'blog/contact.html', locals())
+
+def clean_message(self):
+    message = self.cleaned_data['message']
+    if "pizza" in message:
+        raise forms.ValidationError("On ne veut pas entendre parler de pizza !")
+    return message  # Ne pas oublier de renvoyer le contenu du champ traité
